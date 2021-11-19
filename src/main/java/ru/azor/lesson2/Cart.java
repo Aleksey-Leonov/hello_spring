@@ -7,4 +7,6 @@ public interface Cart {
     void removeProduct(int id);
 
     void showCart();
+
+    ProductRepository getProductRepository();
 }

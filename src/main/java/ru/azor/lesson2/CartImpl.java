@@ -1,28 +1,21 @@
 package ru.azor.lesson2;
 
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Getter
 @Scope("prototype")
+@RequiredArgsConstructor
 public class CartImpl implements Cart {
     private final List<Product> cart = new ArrayList<>();
-    private final ProductRepositoryImpl products;
-
-    @Autowired
-    public CartImpl(ProductRepositoryImpl products) {
-        this.products = products;
-    }
 
     @Override
     public void addProduct(int id) {
-        Product product = products.getProductById(id);
+        Product product = getProductRepository().getProductById(id);
         if (product == null) {
             return;
         }
@@ -32,7 +25,7 @@ public class CartImpl implements Cart {
 
     @Override
     public void removeProduct(int id) {
-        Product product = products.getProductById(id);
+        Product product = getProductRepository().getProductById(id);
         if (cart.isEmpty()) {
             return;
         }
@@ -48,5 +41,11 @@ public class CartImpl implements Cart {
             System.out.println(product);
         }
         System.out.println("-------------------------------------");
+    }
+
+    @Override
+    @Lookup
+    public ProductRepository getProductRepository() {
+        return null;
     }
 }
