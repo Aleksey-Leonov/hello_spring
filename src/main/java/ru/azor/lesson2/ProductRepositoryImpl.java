@@ -3,6 +3,7 @@ package ru.azor.lesson2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Product getProductById(int id) {
         for (Product product : products) {
-            if (product.getId() == id){
+            if (product.getId() == id) {
                 return product;
             }
         }
@@ -46,7 +47,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         String[] names = Objects.requireNonNull(environment.getProperty("listOfProductNames")).split(",");
         for (int i = 0; i < 5; i++) {
             products.add(new Product(i + 1, names[random.nextInt(names.length - 1)], random.nextInt(100)));
